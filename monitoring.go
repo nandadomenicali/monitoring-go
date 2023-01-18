@@ -1,6 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"io"
+	"os"
+	"strings"
+)
 
 func main() {
 	introduction()
@@ -25,4 +31,34 @@ func readCommand() int {
 	fmt.Println("")
 
 	return command
+}
+
+func initialize() {
+	fmt.Println("Monitoring...")
+
+}
+
+func readSites() []string {
+	var sites []string
+	file, err := os.Open("sites.txt")
+
+	if err != nil {
+		fmt.Println("An error has occurred:", err)
+	}
+
+	reader := bufio.NewReader(file)
+	for {
+		line, err := reader.ReadString('\n')
+		line = strings.TrimSpace(line)
+
+		sites = append(sites, line)
+
+		if err == io.EOF {
+			break
+		}
+
+	}
+
+	file.Close()
+	return sites
 }
