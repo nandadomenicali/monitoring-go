@@ -1,0 +1,8 @@
+18/01/2023 20:47:38 - https://www.alura.com.br - online: true
+18/01/2023 20:47:39 - https://random-status-code.herokuapp.com - online: false
+18/01/2023 20:47:40 - https://www.caelum.com.br - online: true
+18/01/2023 20:47:41 - https://www.casadocodigo.com.br - online: true
+18/01/2023 20:47:46 - https://www.alura.com.br - online: true
+18/01/2023 20:47:47 - https://random-status-code.herokuapp.com - online: false
+18/01/2023 20:47:47 - https://www.caelum.com.br - online: true
+18/01/2023 20:47:47 - https://www.casadocodigo.com.br - online: true

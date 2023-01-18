@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strconv"
@@ -16,6 +17,27 @@ const delay = 5
 
 func main() {
 	introduction()
+
+	for {
+		displayMenu()
+
+		command := readCommand()
+
+		switch command {
+		case 1:
+			initialize()
+		case 2:
+			fmt.Println("Displaying logs...")
+			printLogs()
+		case 0:
+			fmt.Println("Exiting the program")
+			os.Exit(0)
+		default:
+			fmt.Println("Command not recognized")
+			os.Exit(-1)
+		}
+	}
+
 }
 
 func introduction() {
@@ -105,4 +127,16 @@ func registerLog(site string, status bool) {
 	file.WriteString(time.Now().Format("02/01/2006 15:04:05") + " - " + site + " - online: " + strconv.FormatBool(status) + "\n")
 
 	file.Close()
+}
+
+func printLogs() {
+
+	file, err := ioutil.ReadFile("log.txt")
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(string(file))
+
 }
