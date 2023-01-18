@@ -6,8 +6,13 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
+	"time"
 )
+
+const monitoring = 2
+const delay = 5
 
 func main() {
 	introduction()
@@ -36,7 +41,16 @@ func readCommand() int {
 
 func initialize() {
 	fmt.Println("Monitoring...")
+	sites := readSites()
 
+	for i := 0; i < monitoring; i++ {
+		for i, site := range sites {
+			fmt.Println("Testing website", i, ":", site)
+			test(site)
+		}
+		time.Sleep(delay * time.Second)
+		fmt.Println("")
+	}
 }
 
 func test(site string) {
@@ -47,9 +61,11 @@ func test(site string) {
 	}
 
 	if response.StatusCode == 200 {
-		fmt.Println("WebSite:", site, "Website loaded successfully")
+		fmt.Println("website:", site, "Website loaded successfully")
+		registerLog(site, true)
 	} else {
-		fmt.Println("WebSite:", site, "It has problems. Status Code:", response.StatusCode)
+		fmt.Println("website:", site, "It has problems. Status Code:", response.StatusCode)
+		registerLog(site, false)
 	}
 }
 
@@ -76,4 +92,17 @@ func readSites() []string {
 
 	file.Close()
 	return sites
+}
+
+func registerLog(site string, status bool) {
+
+	file, err := os.OpenFile("log.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	file.WriteString(time.Now().Format("02/01/2006 15:04:05") + " - " + site + " - online: " + strconv.FormatBool(status) + "\n")
+
+	file.Close()
 }
