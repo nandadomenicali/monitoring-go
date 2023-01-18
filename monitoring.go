@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"strings"
 )
@@ -36,6 +37,20 @@ func readCommand() int {
 func initialize() {
 	fmt.Println("Monitoring...")
 
+}
+
+func test(site string) {
+	response, err := http.Get(site)
+
+	if err != nil {
+		fmt.Println("An error has occurred:", err)
+	}
+
+	if response.StatusCode == 200 {
+		fmt.Println("WebSite:", site, "Website loaded successfully")
+	} else {
+		fmt.Println("WebSite:", site, "It has problems. Status Code:", response.StatusCode)
+	}
 }
 
 func readSites() []string {
